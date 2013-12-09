@@ -41,7 +41,7 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     return Indicator
     
 def overall_period(timestamps): #runs the program over all the default parameters
-   for T in range(600): #default 8 years for a period
+   for T in range(600): #Customize this value for whatever range of values you require
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
