@@ -41,18 +41,25 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     return Indicator
     
 def overall_period(timestamps): #runs the program over all the default parameters
-   for T in range(600): #Customize this value for whatever range of values you require
+   for T in range(500): #customize this to your needs
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
              if Indicator == 0:
                  t0_values += [t0]
-        print(t0_values)#prints all the t0 values that work with that specific T
+        print(T,t0_values)#prints all the t0 values that work with that specific T
+        for q in t0_values:
+            plt.plot(T, q, 'ro-')
         
 
-#The program with a set value of timestamps            
+#The program with a set value of timestamps   
+import matplotlib.pyplot as plt         
 timestamps = [5, 90, 93, 183, 186, 276, 279, 369]
 overall_period(timestamps)
+plt.xlabel('Period Lengths (T)')
+plt.ylabel('Period Displacements (t0)')
+plt.title('Testing Viable Periods Over Transit Data\n Timestamps: {0:s}'.format(timestamps))
+plt.show()
 
 
 
