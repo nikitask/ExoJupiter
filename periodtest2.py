@@ -41,7 +41,7 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     return Indicator
     
 def overall_period(timestamps): #runs the program over all the default parameters
-   for T in range(500): #customize this to your needs
+   for T in range(1,501): #default 8 years for a period
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
@@ -49,16 +49,29 @@ def overall_period(timestamps): #runs the program over all the default parameter
                  t0_values += [t0]
         print(T,t0_values)#prints all the t0 values that work with that specific T
         for q in t0_values:
-            plt.plot(T, q, 'ro-')
+            ax1.plot(T, q, 'k.') #graphs each looped point
+        fraction = len(t0_values)/float(T)
+        ax2.plot(T, fraction, 'k.') #graphs the fraction of t0 that work
+        
         
 
 #The program with a set value of timestamps   
+import numpy as np
 import matplotlib.pyplot as plt         
 timestamps = [5, 90, 93, 183, 186, 276, 279, 369]
+
+fig = plt.figure(1, figsize = (12,12))
+ax1 = fig.add_subplot(2,1,1) #graph for accepted t0 values
+ax2 = fig.add_subplot(2,1,2) #graph for fraction of t0 values
+
 overall_period(timestamps)
-plt.xlabel('Period Lengths (T)')
-plt.ylabel('Period Displacements (t0)')
-plt.title('Testing Viable Periods Over Transit Data\n Timestamps: {0:s}'.format(timestamps))
+
+ax1.set_xlabel('Period Lengths (T)')
+ax1.set_ylabel('Period Displacements (t0)')
+ax1.set_title('Testing Viable Periods Over Transit Data\n Timestamps: {0:s}'.format(timestamps))
+ax2.set_xlabel('Period Lengths (T)')
+ax2.set_ylabel('Fraction of Viable Undetected t0')
+fig.tight_layout()
 plt.show()
 
 
