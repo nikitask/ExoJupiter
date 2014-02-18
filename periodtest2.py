@@ -1,8 +1,8 @@
 def max_period_list(T, t0, timestamps, t_max):
     period_list = []
-    for a in range(t_max): #t_max is range because that is the maximum value in the system
-        if (t0 + a*T) <= t_max: #tests if period value surpasses maximum data point
-            period_list += [t0 + a*T] #adds the value to the list of potential periods
+    T = T*1.0
+    for a in range(np.ceil(t_max/T).astype(int)): #t_max is range because that is the maximum value in the system
+    	period_list += [t0 + a*T] #adds the value to the list of potential periods
     return period_list
 
 def min_period_list(timestamps, period_list, t_min):
@@ -41,7 +41,8 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     return Indicator
     
 def overall_period(timestamps): #runs the program over all the default parameters
-   for T in range(4000,4001): #default 8 years for a period
+   fractions = []
+   for T in range(1,501): #default 8 years for a period
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
@@ -50,21 +51,28 @@ def overall_period(timestamps): #runs the program over all the default parameter
         print(T,t0_values)#prints all the t0 values that work with that specific T
         for q in t0_values:
             ax0.plot(T, q, 'k.') #graphs each looped point
-        fraction = len(t0_values)/float(T)
+        fraction = 1-(len(t0_values)/float(T))
+        fractions += [fraction]
         ax1.plot(T, fraction, 'k.') #graphs the fraction of t0 that work
-        ax2.plot(T, fraction, 'k.') #graphs the ln fraction of t0 that work
+        #ax2.plot(T, fraction, 'k.') #graphs the ln fraction of t0 that work
+   return fractions #returns to be multiplied with geometric_probability and graphed
+        
 
-def geometric_probability(StarMass, StarRadius): 
+def geometric_probability(transit_fractions, StarMass, StarRadius): 
 #calculates chance of planet appearing to Kepler
-	for T in range(1,1):
+	for T in range(1,501):
 		T_years = T/365. #converts period to years
 		print(T)
 		print(T_years)
 		a = ((T_years**2.)*StarMass)**(1./3)
-		Prob_Percent = (StarRadius/a)*100 #radius must be in AU
+		Prob_Percent = (StarRadius/a) #radius must be in AU
 		print(a)
 		print(Prob_Percent)
-		plt.plot(T, Prob_Percent, 'b.')
+		ax1.plot(T, Prob_Percent, 'b.',)
+		total_fraction = Prob_Percent*transit_fractions[T-1]
+		print(total_fraction)
+		ax1.plot(T, total_fraction, 'r.',)
+		
 
         
 
@@ -81,36 +89,29 @@ timestamps = [5, 90, 93, 183, 186, 276, 279, 369]
 
 
 fig1 = plt.figure(1, figsize = (10,10))
-ax0 = fig1.add_subplot(1,1,1)#graph for accepted t0 values
-fig2 = plt.figure(2, figsize = (10,10))
-ax1 = fig2.add_subplot(2,1,1) #graph for fraction of t0 values
-ax2 = fig2.add_subplot(2,1,2) #graph for ln fraction of t0 values
-fig3 = plt.figure(3, figsize = (10,10))
-ax3 = fig3.add_subplot(1,1,1) #graph for Geometric Probability
+ax1 = fig1.add_subplot(2,1,2) #graph for fraction of t0 values
+ax0 = fig1.add_subplot(211, sharex = ax1)#graph for accepted t0 values
+
+
 
 StarMass = 1 #Scaled to Sun, temporarily using mass of sun
 StarRadius = 0.00929826069 #in AU, temporarily using radius of sun
-overall_period(timestamps)
-geometric_probability(StarMass, StarRadius)
+
+transit_fractions = overall_period(timestamps)
+geometric_probability(transit_fractions, StarMass, StarRadius)
+
+
 #Plotting description for the accepted t0 values
-ax0.set_xlabel('Period Lengths (T)')
 ax0.set_ylabel('Period Displacements (t0)')
 ax0.set_title('Testing Viable Periods Over Transit Data\nTimestamps: {0:s}'.format(timestamps))
 #Plotting description for the fraction of viable t0 values
 ax1.set_xlabel('Period Lengths (T)')
-ax1.set_ylabel('Fraction of Viable Undetected t0')
+ax1.set_ylabel('Fraction')
 ax1.set_ylim(ymax=1.1, ymin = -0.1)
-ax1.set_title('Fraction of Oribital Displacements Accepted\n Timestamps: {0:s}'.format(timestamps))
-#Plotting description for the ln fraction of viable t0 values
-ax2.set_xlabel('Period Lengths (T)')
-ax2.set_ylabel('Ln Fraction of Viable Undetected t0')
-ax2.set_yscale('log')
-ax2.set_title(' ln Fraction of Oribital Displacements Accepted\n Timestamps: {0:s}'.format(timestamps))
-fig2.tight_layout()
-#Plotting description for the geometric probability of planet
-ax3.set_xlabel('Period Lengths (years)')
-ax3.set_ylabel('Geometric Probability (%)')
-ax3.set_title('Probability of Planet having Proper Orientation for Kepler Satellite')
+ax1.set_title('Fraction of Planetary Transits Detected')
+ax1.text(1,0.5,'Black = Transit Prob \n Blue = Geometric Prob \n Red = Total Prob', horizontalalignment='right', verticalalignment='center', transform=ax1.transAxes)
+#plt.figlegend((line1, line2, line3),('Prob of Lost Transit','Geometric Probability','Total Probability'), 'center right')
+plt.show()
 
 
 
@@ -120,11 +121,3 @@ sortby = 'cumulative'
 ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
 ps.print_stats()
 print s.getvalue()
-
-
-            
-
-
-            
-    
-    
