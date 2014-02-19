@@ -42,7 +42,7 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     
 def overall_period(timestamps): #runs the program over all the default parameters
    fractions = []
-   for T in range(1,501): #default 8 years for a period
+   for T in range(1,801): #default 8 years for a period
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
@@ -53,14 +53,14 @@ def overall_period(timestamps): #runs the program over all the default parameter
             ax0.plot(T, q, 'k.') #graphs each looped point
         fraction = 1-(len(t0_values)/float(T))
         fractions += [fraction]
-        ax1.plot(T, fraction, 'k.') #graphs the fraction of t0 that work
+        ax1.semilogy(T, fraction, 'k.') #graphs the fraction of t0 that work
         #ax2.plot(T, fraction, 'k.') #graphs the ln fraction of t0 that work
    return fractions #returns to be multiplied with geometric_probability and graphed
         
 
 def geometric_probability(transit_fractions, StarMass, StarRadius): 
 #calculates chance of planet appearing to Kepler
-	for T in range(1,501):
+	for T in range(1,801):
 		T_years = T/365. #converts period to years
 		print(T)
 		print(T_years)
@@ -68,10 +68,10 @@ def geometric_probability(transit_fractions, StarMass, StarRadius):
 		Prob_Percent = (StarRadius/a) #radius must be in AU
 		print(a)
 		print(Prob_Percent)
-		ax1.plot(T, Prob_Percent, 'b.',)
+		ax1.semilogy(T, Prob_Percent, 'b.',)
 		total_fraction = Prob_Percent*transit_fractions[T-1]
 		print(total_fraction)
-		ax1.plot(T, total_fraction, 'r.',)
+		ax1.semilogy(T, total_fraction, 'r.',)
 		
 
         
@@ -107,10 +107,10 @@ ax0.set_title('Testing Viable Periods Over Transit Data\nTimestamps: {0:s}'.form
 #Plotting description for the fraction of viable t0 values
 ax1.set_xlabel('Period Lengths (T)')
 ax1.set_ylabel('Fraction')
-ax1.set_ylim(ymax=1.1, ymin = -0.1)
+ax1.set_ylim(ymax=1.1, ymin = -1.1)
+
 ax1.set_title('Fraction of Planetary Transits Detected')
 ax1.text(1,0.5,'Black = Transit Prob \n Blue = Geometric Prob \n Red = Total Prob', horizontalalignment='right', verticalalignment='center', transform=ax1.transAxes)
-#plt.figlegend((line1, line2, line3),('Prob of Lost Transit','Geometric Probability','Total Probability'), 'center right')
 plt.show()
 
 
@@ -121,3 +121,11 @@ sortby = 'cumulative'
 ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
 ps.print_stats()
 print s.getvalue()
+
+
+            
+
+
+            
+    
+    
