@@ -1,0 +1,30 @@
+\documentclass[12pt]{article}
+\usepackage[left=2cm,top=1cm,right=3cm,bottom=1cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\begin{document}
+Draft 1 \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\
+    \begin{center}
+      {\Huge Testing Viable Periods of Transit Data}\\[0.5cm]
+      {\Large David Hogg and Nikitas Kanellakopoulos}\\[0.4cm]
+    \end{center}
+
+\section{Introduction}
+
+\indent Due to technical limitations, the Kepler Satellite could not maintain a constant measure of every star it was assigned to monitor. Because of this, any given star has gaps in its
+data stream. This causes problems when trying to determine what period a certain exoplanet can have, because there is a chance that a transit across the star was not recorded. For every possible orbital period, how can we tell whether the exoplanet does not exist or if we missed one (or more) of its transits? \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ 
+
+\section{Python Solution}
+\indent This program takes the data as a list of numbers corresponding to the beginning and end of the period where Kepler was measuring the star?s brightness. A star that was measured from day 0 to day 90, and then from day 120 to day 160 would have the set [0,90,120,160]. The program then generates a graph with the x-axis being the defined maximum period the exoplanet should have, and the y-axis being the period displacement (where the first transit would occur). The shaded areas indicate a transit that would be missed by Kepler. This is the top graph in Figure 1 on the next page.\\
+\indent The bottom graph on Figure 1 is a probability graph of three lines. The black line is the probability of detecting a transit based on Kepler's data, the blue line is the probability of the planet having the proper orbit orientation so that Kepler can observe it. The red line is the total probability, the product of the two aforementioned probabilities.
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=6in]{/Users/nikitas/Dropbox/NYU/Research/Exoplanets/LaTexFigure1.png}
+  \caption[]
+  \
+\end{figure}
+
+\end{document}
