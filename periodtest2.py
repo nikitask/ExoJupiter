@@ -42,24 +42,16 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
     
 def overall_period(timestamps): #runs the program over all the default parameters
    fractions = []
-<<<<<<< HEAD
+
    for T in range(1,1001): #default 8 years for a period
-=======
-   for T in range(1,801): #default 8 years for a period
->>>>>>> 78dd6002dc33cda9fa4dcd7eba74ebc8baaeb0b4
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
              if Indicator == 0:
                  t0_values += [t0]
-<<<<<<< HEAD
-        f.write(repr(T) + repr(t0_values) + '\n')
+        #f.write(repr(T) + repr(t0_values) + '\n')
         print(T)#prints all the t0 values that work with that specific T
         for q in t0_values:        	
-=======
-        print(T,t0_values)#prints all the t0 values that work with that specific T
-        for q in t0_values:
->>>>>>> 78dd6002dc33cda9fa4dcd7eba74ebc8baaeb0b4
             ax0.plot(T, q, 'k.') #graphs each looped point
         fraction = 1-(len(t0_values)/float(T))
         fractions += [fraction]
@@ -70,11 +62,7 @@ def overall_period(timestamps): #runs the program over all the default parameter
 
 def geometric_probability(transit_fractions, StarMass, StarRadius): 
 #calculates chance of planet appearing to Kepler
-<<<<<<< HEAD
 	for T in range(1,1001):
-=======
-	for T in range(1,801):
->>>>>>> 78dd6002dc33cda9fa4dcd7eba74ebc8baaeb0b4
 		T_years = T/365. #converts period to years
 		print(T)
 		print(T_years)
@@ -110,16 +98,10 @@ ax0 = fig1.add_subplot(211, sharex = ax1)#graph for accepted t0 values
 
 StarMass = 1 #Scaled to Sun, temporarily using mass of sun
 StarRadius = 0.00929826069 #in AU, temporarily using radius of sun
-<<<<<<< HEAD
-f = open('testfile.txt','w')
+#f = open('testfile.txt','w')
 transit_fractions = overall_period(timestamps)
 geometric_probability(transit_fractions, StarMass, StarRadius)
-f.close()
-=======
-
-transit_fractions = overall_period(timestamps)
-geometric_probability(transit_fractions, StarMass, StarRadius)
->>>>>>> 78dd6002dc33cda9fa4dcd7eba74ebc8baaeb0b4
+#f.close()
 
 
 #Plotting description for the accepted t0 values
