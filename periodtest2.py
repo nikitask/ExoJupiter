@@ -15,6 +15,7 @@ def min_period_list(timestamps, period_list, t_min):
             end_add = "no"
         if end_add == "yes": #prevents t_min from being added multiple times
             period_list.insert(0, t_min)
+    print(period_list)
     return period_list
 
 def order_timestamps(timestamps): #orders timestamps into sublist pairs
@@ -43,7 +44,7 @@ def period(T, t0, timestamps): #runs all of the functions for one specific T and
 def overall_period(timestamps): #runs the program over all the default parameters
    fractions = []
 
-   for T in range(1,1001): #default 8 years for a period
+   for T in range(1,201): #default 8 years for a period
         t0_values = []
         for t0 in range(T):
              Indicator = period(T, t0, timestamps)
@@ -62,7 +63,7 @@ def overall_period(timestamps): #runs the program over all the default parameter
 
 def geometric_probability(transit_fractions, StarMass, StarRadius): 
 #calculates chance of planet appearing to Kepler
-	for T in range(1,1001):
+	for T in range(1,201):
 		T_years = T/365. #converts period to years
 		print(T)
 		print(T_years)
